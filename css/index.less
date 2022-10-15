@@ -1,0 +1,136 @@
+@import url(mixins/clear.less);
+
+#wrapper {
+//头部
+    #header {
+        .headTop {
+            background: #eaeaea;
+            height: 30px;
+
+            .headTopMain {
+                width: 1200px;
+                margin: 0 auto;
+                line-height: 30px;
+                .clearfix();
+
+                .left {
+                    float: left;
+
+                    h5 {
+                        float: left;
+                    }
+
+                    p {
+                        float: left;
+
+                        a {
+                            &:first-child {
+                                border-right: 1px solid #b2aeae;
+                                margin-right: 0px;
+                                padding-right: 5px;
+                            }
+                        }
+                    }
+
+                }
+
+                .right {
+                    float: right;
+
+                    nav {
+                        font-size: 0px;
+
+                        a {
+                            margin-right: 10px;
+                            padding-right: 10px;
+                            font-size: 12px;
+                            border-right: 1px solid #b2aeae;
+
+                            &:last-child {
+                                border: none;
+                                margin-right: 0px;
+                                padding-right: 0px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .headBottom {
+            .headBottomMain {
+                width: 1200px;
+                margin: 0 auto;
+                .clearfix();
+
+                .logo {
+                    float: left;
+
+                    a {
+                        img {
+                            width: 175px;
+                            height: 56px;
+                            margin: 25px 45px;
+                        }
+                    }
+                }
+
+                .search {
+                    float: right;
+                    margin-top: 35px;
+
+                    input {
+                        &:first-child {
+                            box-sizing: border-box;
+                            width: 490px;
+                            height: 32px;
+                            padding: 0px 4px;
+                            border: 3px solid #ea4a36;
+                            float: left;
+                        }
+
+                        &:last-child {
+                            width: 68px;
+                            height: 32px;
+                            color: #fff;
+                            background-color: #ea4a36;
+                            border: none;
+
+                        }
+                        
+
+                    }
+                }
+            }
+        }
+    }
+
+// 分类导航开始
+    #navWrap{
+        border-bottom: 2px solid #e1251b;
+
+        .navWrapMain{
+            width: 1200px;
+            margin: 0 auto;
+            .clearfix();
+            a{
+                margin: 0 22px;
+                font-size: 16px;
+                color: #333;
+                float: left;
+                line-height: 50px;
+             &:first-child{
+                width: 210px;
+                height: 50px;
+                background-color: #e1251b;
+                color: #fff;
+                font-size: 14px;
+                font-weight: bold;
+                float: left;
+                text-align: center;
+                line-height: 50px;
+             }
+            }
+        }
+    }
+}
