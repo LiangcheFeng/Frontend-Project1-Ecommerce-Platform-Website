@@ -29,7 +29,7 @@ var goodData = {
         
     ],
     goodsDetail: {
-        title: "Apple iPhone 14（A1700）64G玫瑰金色 移动通信电信4G手机bbb123",
+        title: "Apple / iPhone 14",
         recommend: "推荐选择下方[移动优惠购],手机套餐齐搞定,不用换号,每月还有花费返",
         price: 5299,
         promoteSales: {
@@ -41,39 +41,39 @@ var goodData = {
         evaluateNum: 670000,
         crumbData: [
             {
-                "title": "选择颜色",
+                "title": "Color",
                 "data": [
                     {
-                        type: "金色",
+                        type: "Gold",
                         changePrice: 0
                     },
                     {
-                        type: "银色",
+                        type: "Silver",
                         changePrice: 40
                     },
                     {
-                        type: "黑色",
+                        type: "Black",
                         changePrice: 90
                     },
                 ]
             },
             {
-                "title": "内存容量",
+                "title": "Storage",
                 "data": [
                     {
-                        type: "16G",
+                        type: "64G",
                         changePrice: 0
                     },
                     {
-                        type: "64G",
+                        type: "128G",
                         changePrice: 300
                     },
                     {
-                        type: "128G",
+                        type: "256G",
                         changePrice: 900
                     },
                     {
-                        type: "256G",
+                        type: "512G",
                         changePrice: 1300
                     },
                 ]
@@ -99,7 +99,7 @@ var goodData = {
                         changePrice: 0
                     },
                     {
-                        type: "优惠移动版",
+                        type: "移动优惠版",
                         changePrice: -240
                     },
                     {

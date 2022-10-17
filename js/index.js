@@ -135,18 +135,18 @@ window.onload = function () {
          * 2. 点击缩略图需要确定其下标位置来找到对应小图路径和大图路径替换现有的src路径
          */
         var liNodes = document.querySelectorAll('#wrapper #content .contentMain #center #left #leftBottom #piclist ul li');
-        var smallPic_img=document.querySelector('#wrapper #content .contentMain #center #left #leftTop #smallPic img');
-        var imagessrc=goodData.imagessrc;
-        smallPic_img.scr=imagessrc[0].s;
-        for(var i = 0;i<liNodes.length;i++){
+        var smallPic_img = document.querySelector('#wrapper #content .contentMain #center #left #leftTop #smallPic img');
+        var imagessrc = goodData.imagessrc;
+        smallPic_img.scr = imagessrc[0].s;
+        for (var i = 0; i < liNodes.length; i++) {
             //在点击事件之前，给每一个元素都添加上自定义的下标
             liNodes[i].index = i; /** 还可以通过setAttribute('index',i) */
-            liNodes[i].onclick = function(){
-                 var idx = this.index; /** 事件函数中的this永远指向的是实际发生事件的目标源对象 */
-                 bigimgIndex = idx;
+            liNodes[i].onclick = function () {
+                var idx = this.index; /** 事件函数中的this永远指向的是实际发生事件的目标源对象 */
+                bigimgIndex = idx;
 
-                 //变换小图路径
-                 smallPic_img.src = imagessrc[idx].s;
+                //变换小图路径
+                smallPic_img.src = imagessrc[idx].s;
 
             }
         }
@@ -156,7 +156,7 @@ window.onload = function () {
 
     //点击缩略图左右箭头效果
     thumbnailLeftRightClick();
-    function thumbnailLeftRightClick() { 
+    function thumbnailLeftRightClick() {
         /**
          * 1. 先获取左右两端的箭头
          * 2. 再获取可视的div、ul元素、li元素
@@ -164,39 +164,39 @@ window.onload = function () {
          * 4. 发生点击事件
          */
 
-        var prev =document.querySelector("#wrapper #content .contentMain #center #left #leftBottom a.prev");
-        var next =document.querySelector("#wrapper #content .contentMain #center #left #leftBottom a.next");
-       var piclist= document.querySelector("#wrapper #content .contentMain #center #left #leftBottom #piclist")
-       var ul = document.querySelector("#wrapper #content .contentMain #center #left #leftBottom #piclist ul");
-       var liNodes=document.querySelectorAll('#wrapper #content .contentMain #center #left #leftBottom #piclist ul li');
+        var prev = document.querySelector("#wrapper #content .contentMain #center #left #leftBottom a.prev");
+        var next = document.querySelector("#wrapper #content .contentMain #center #left #leftBottom a.next");
+        var piclist = document.querySelector("#wrapper #content .contentMain #center #left #leftBottom #piclist")
+        var ul = document.querySelector("#wrapper #content .contentMain #center #left #leftBottom #piclist ul");
+        var liNodes = document.querySelectorAll('#wrapper #content .contentMain #center #left #leftBottom #piclist ul li');
 
-       var start =0;
-       var step= (liNodes[0].offsetWidth+20)*2
-       var endPosition = (liNodes.length-5)*(liNodes[0].offsetWidth+20);
+        var start = 0;
+        var step = (liNodes[0].offsetWidth + 20) * 2
+        var endPosition = (liNodes.length - 5) * (liNodes[0].offsetWidth + 20);
 
-       prev.onclick = function(){
-        start-=step;
-        if(start < 0){
-            start = 0;
+        prev.onclick = function () {
+            start -= step;
+            if (start < 0) {
+                start = 0;
+            }
+            ul.style.left = -start + "px";
         }
-        ul.style.left = -start + "px";
-    }
 
-    next.onclick = function(){
-        start+=step;
-        if(start > endPosition){
-            start = endPosition;
+        next.onclick = function () {
+            start += step;
+            if (start > endPosition) {
+                start = endPosition;
+            }
+            ul.style.left = -start + "px";
         }
-        ul.style.left = -start + "px";
-    }
     }
 
     //商品详情的动态渲染
     rightTopData();
-    function rightTopData(){
-       var rightTop = document.querySelector("#wrapper #content .contentMain #center .right .rightTop");
-       var goodsDetail=goodData.goodsDetail;
-      var s =`<h3>${goodsDetail.title}</h3>
+    function rightTopData() {
+        var rightTop = document.querySelector("#wrapper #content .contentMain #center .right .rightTop");
+        var goodsDetail = goodData.goodsDetail;
+        var s = `<h3>${goodsDetail.title}</h3>
       <p>${goodsDetail.recommend}</p>
       <div class="priceWrap">
           <div class="priceTop">
@@ -228,8 +228,227 @@ window.onload = function () {
           <p>${goodsDetail.address}</p>
       </div>`;
 
-       rightTop.innerHTML=s;
+        rightTop.innerHTML = s;
 
     }
 
+    //商品参数的动态渲染
+    rightBottomData();
+    function rightBottomData() {
+        /**
+         * 1. 找rightBottom的元素对象
+         * 2. 查找data.js -> goodData.goodsDetail.crumbData数据
+         * 3. 由于上述数据是数组，需要遍历，有一个元素则需要有一个动态的dl元素对象
+         */
+        var chooseWrap = document.querySelector("#wrapper #content .contentMain #center .right .rightBottom .chooseWrap");
+        var crumbData = goodData.goodsDetail.crumbData;
+
+        for (i = 0; i < crumbData.length; i++) {
+            var dlNode = document.createElement("dl");
+            var dtNode = document.createElement("dt");
+            dtNode.innerText = crumbData[i].title;
+
+            dlNode.appendChild(dtNode);
+
+            for (j = 0; j < crumbData[i].data.length; j++) {
+                var ddNode = document.createElement("dd");
+                ddNode.innerText = crumbData[i].data[j].type;
+                ddNode.setAttribute("price", crumbData[i].data[j].changePrice);
+                dlNode.appendChild(ddNode);
+            }
+
+
+
+
+            chooseWrap.appendChild(dlNode);
+
+        }
+
+    }
+
+    //点击商品参数改变
+    clickddBind();
+    function clickddBind() {
+        /**
+         * 1. 获取所有的dl，取其中第一个dl元素下的所有dd
+         * 2. 循环点击事件
+         * 3. 确定实际发生事件的目标源对象设置为红色，其他的元素都颜色都变成基础色
+         */
+
+
+
+        var dlNodes = document.querySelectorAll("#wrapper #content .contentMain #center .right .rightBottom .chooseWrap dl");
+        var arr = new Array(dlNodes.length);
+        var choose = document.querySelector("#wrapper #content .contentMain #center .right .rightBottom .choose")
+        arr.fill(0);
+        console.log(arr);
+        for (var i = 0; i < dlNodes.length; i++) {
+
+            (function (i) {
+
+                var ddNodes = dlNodes[i].querySelectorAll("dd");
+
+
+                for (var j = 0; j < ddNodes.length; j++) {
+
+                    ddNodes[j].onclick = function () {
+
+                        choose.innerHTML = '';
+
+
+                        for (k = 0; k < ddNodes.length; k++) {
+
+                            ddNodes[k].style.color = "#666";
+                        }
+
+                        this.style.color = "red";
+
+                        /**
+                         * 1.首先先创建一个可以容纳点击的dd元素值的容器（数组），确定数组的起始长度
+                         * 2. 将点击的dd元素值按照对应下标写入到元素身上
+                         * 3.遍历arr数组，将arr数组里的内容写入mark
+                         */
+                        arr[i] = this;
+                        changePriceBind(arr);
+                        arr.forEach(function (value, index) {
+                            if (value) {
+                                //动态创建mark
+                                var markDiv = document.createElement('div');
+                                markDiv.className = 'mark';
+                                markDiv.innerText = value.innerText;
+                                var aNode = document.createElement('a');
+                                aNode.innerText = 'X';
+                                aNode.setAttribute('index', index);
+                                markDiv.appendChild(aNode);
+                                choose.appendChild(markDiv);
+                            }
+
+                        })
+                        //获取a，循环发生点击事件
+                        var aNodes = document.querySelectorAll("#wrapper #content .contentMain #center .right .rightBottom .choose .mark a ");
+                        for (var n = 0; n < aNodes.length; n++) {
+                            aNodes[n].addEventListener("click", function () {
+                                var idx = this.getAttribute("index");
+                                arr[idx] = 0;
+
+                                var ddlist = dlNodes[idx].querySelectorAll("dd");
+                                for (var m = 0; m < ddlist.length; m++) {
+                                    ddlist[m].style.color = "#666";
+                                }
+                                ddlist[0].style.color = "red";
+                                console.log(this.parentNode);
+                                choose.removeChild(this.parentNode);
+
+                                //点击也要调用价格变动函数
+                                changePriceBind(arr);
+
+                            })
+                        }
+
+                    }
+                }
+            })(i)
+
+        }
+
+    }
+
+    //价格变动
+
+    function changePriceBind(arr) {
+
+        var oldPrice = document.querySelector("#wrapper #content .contentMain #center .right .rightTop .priceWrap .priceTop .price p");
+        var price = goodData.goodsDetail.price;
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i]) {
+                var changeprice = parseFloat(arr[i].getAttribute('price'));
+                price = price + changeprice;
+            }
+        }
+        oldPrice.innerText = price;
+
+
+        var leftprice = document.querySelector("#wrapper #content .contentMain .goodsDetailWrap .rightDetail .chooseBox .listWrap .left p");
+        leftprice.innerText = "¥" + price;
+
+        var ipts = document.querySelectorAll('#wrapper #content .contentMain .goodsDetailWrap .rightDetail .chooseBox .listWrap .middle li input');
+        var newprice = document.querySelector('#wrapper #content .contentMain .goodsDetailWrap .rightDetail .chooseBox .listWrap .right i');
+        for (var j = 0; j < ipts.length; j++) {
+            if (ipts[j].checked) {
+                price = price + Number(ipts[j].value);
+            }
+        }
+        newprice.innerText = "¥" + price;
+
+
+    }
+
+    //选择我搭配中间区域复选框中套餐价格变动效果
+    chooseprice();
+    function chooseprice() {
+        /**
+         * 1. 获取复选框
+         * 2.遍历这些元素取出他们的价格，和左侧的基础价格进行累加，累加之后重新写回套餐价标签里面
+         */
+        var ipts = document.querySelectorAll('#wrapper #content .contentMain .goodsDetailWrap .rightDetail .chooseBox .listWrap .middle li input');
+        var leftprice = document.querySelector("#wrapper #content .contentMain .goodsDetailWrap .rightDetail .chooseBox .listWrap .left p");
+        var newprice = document.querySelector("#wrapper #content .contentMain .goodsDetailWrap .rightDetail .chooseBox .listWrap .right i");
+
+        for (var i = 0; i < ipts.length; i++) {
+            ipts[i].onclick = function () {
+
+                var oldprice = Number(leftprice.innerText.slice(1));//左侧价格
+
+                for (var j = 0; j < ipts.length; j++) {
+                    if (ipts[j].checked) {
+                        oldprice = oldprice + Number(ipts[j].value);
+                    }
+                }
+
+                //写回到套餐价格
+                newprice.innerText = "¥" + oldprice;
+            }
+        }
+    }
+
+
+    //封装一个公共的选项卡函数
+    /**
+     * 1.被点击的元素 tabBtns
+     * 2.被切换显示的元素 tabConts
+     */
+    function Tab(tabBtns,tabConts){
+
+       for(var i =0;i<tabBtns.length;i++){
+        tabBtns[i].index=i;
+        tabBtns[i].onclick=function(){
+            for(var j =0;j<tabBtns.length;j++){
+                tabBtns[j].className='';
+                tabConts[j].className='';
+            }
+            this.className='active';
+            tabConts[this.index].className='active';
+        }
+       }
+
+    }
+
+
+    //点击左侧选项卡
+    leftTab();
+    function leftTab(){
+       var h4s=document.querySelectorAll("#wrapper #content .contentMain .goodsDetailWrap .leftAside .asideTop h4 ");
+       var divs =document.querySelectorAll("#wrapper #content .contentMain .goodsDetailWrap .leftAside .aslideContent>div");
+       Tab(h4s,divs);
+    }
+
+     //点击右侧选项卡
+     rightTab();
+     function rightTab(){
+        var lis =document.querySelectorAll('#wrapper #content .contentMain .goodsDetailWrap .rightDetail .bottomDetail .tabBtns li');
+        //被切换显示的元素
+        var divs = document.querySelectorAll('#wrapper #content .contentMain .goodsDetailWrap .rightDetail .bottomDetail .tabContents div');
+        //调用函数
+        Tab(lis,divs);
+    }
 }
