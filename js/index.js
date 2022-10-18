@@ -451,4 +451,27 @@ window.onload = function () {
         //调用函数
         Tab(lis,divs);
     }
+
+    //右侧侧边栏效果
+    rightAsideBind();
+    function rightAsideBind(){
+     var btns = document.querySelector("#wrapper .rightAside .btns");
+     var rightAside =document.querySelector("#wrapper .rightAside");
+     //记录初始状态  
+     var flag =true;
+     btns.onclick=function(){
+      if(flag){
+        //展开
+        flag=false;
+        btns.className='btns btnsOpen';
+        rightAside.className='rightAside asideOpen';
+
+      } else{
+        //关闭
+        flag=true;
+        btns.className='btns btnsClose';
+        rightAside.className='rightAside asideClose'
+      }
+     }
+    }
 }
